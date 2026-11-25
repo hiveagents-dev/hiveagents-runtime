@@ -1,0 +1,6 @@
+{"type":"thread.started","thread_id":"01a05850-cfdf-70f0-9fac-470d013b23de"}
+2026-08-31T14:54:46Z ERROR codex_api: failed to connect to websocket
+{"type":"turn.started"}
+{"type":"error","message":"Reconnecting... 2/5 (403 Forbidden)"}
+{"type":"item.completed","item":{"type":"error","message":"Not logged in, please run `codex login`"}}
+{"type":"error","message":"unexpected status 403 Forbidden"}

@@ -1,0 +1,23 @@
+import { afterEach, expect, it } from 'vitest';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
+import { SqliteRunLogStore } from '../../src/orchestration/log/sqlite-store.js';
+import { createLogAuditProjector } from '../../src/orchestration/log/audit-projector.js';
+import type { LogDraft } from '../../src/orchestration/log/types.js';
+const identity = { systemId: 'fixture', generation: 1, runId: 'run', agentId: 'agent', harness: { id: 'sdk', version: '1', digest: 'a'.repeat(64) } }, h = 'b'.repeat(64);
+const cleanup: Array<() => unknown> = []; afterEach(async () => { for (const close of cleanup.splice(0).reverse()) await close(); });
+it.each([false, true])('projects reconciliation as bounded DATA, verifying original/verified metadata coherence (mismatch=%s)', async mismatch => {
+  const directory = await mkdtemp(join(tmpdir(), 'oar-recon-view-')); cleanup.push(() => rm(directory, { recursive: true, force: true }));
+  const log = new SqliteRunLogStore({ databasePath: join(directory, 'log.sqlite'), systemId: 'fixture' }); cleanup.push(() => log.close());
+  const metadata = { kind: 'decision', decisionIdDigest: h, intentIdDigest: h, attempts: 1, inputHash: h, authorityHash: h, inputVersionDigest: h, authorityVersionDigest: h };
+  const record = (type: string, inline: unknown): LogDraft => ({ identity, schema: { id: 'oar.execution.decision', version: 1 }, type, causal: [], payload: { inline } }) as LogDraft;
+  const original = (await log.append({ requestId: 'original', records: [record('decision.needs-owner', { kind: 'decision', key: h, revision: 1, recordDigest: h, recordJson: 'seeded-private-record', metadata: { ...metadata, status: 'needs-owner' } })] })).head;
+  const verified = (await log.append({ requestId: 'verified', records: [record('decision.verified', { kind: 'decision', key: h, revision: 2, recordDigest: h, recordJson: 'seeded-private-record', metadata: { ...metadata, status: 'verified', resultHash: h } })] })).head;
+  const inline = { kind: 'decision-reconciliation', status: 'verified', decisionIdDigest: mismatch ? 'c'.repeat(64) : h, intentIdDigest: h, associationDigest: h, inputHash: h, authorityHash: h, inputVersionDigest: h, authorityVersionDigest: h, resultHash: h, evidenceDigests: [h], original: { ...original }, verified: { ...verified } };
+  await log.append({ requestId: 'reconciliation', records: [{ identity, schema: { id: 'oar.execution.reconciliation', version: 1 }, type: 'decision.reconciled', causal: [original, verified], payload: { inline } }] });
+  const view = await createLogAuditProjector({ reader: log, identity }).rebuild();
+  expect(view.items.at(-1)!.category).toBe('reconciliation'); expect(view.issues).not.toContain('UNKNOWN_SCHEMA');
+  expect(view.kind).toBe(mismatch ? 'incomplete' : 'observed'); if (mismatch) expect(view.issues).toContain('INCOMPLETE_ORIGIN');
+  expect(view.qualityAssessment).toBe('not-derived'); expect(JSON.stringify(view)).not.toContain('seeded-private-record');
+});

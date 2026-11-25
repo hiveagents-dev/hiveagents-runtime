@@ -1,0 +1,4 @@
+{"type":"system","subtype":"init","session_id":"claude-session-1"}
+{"type":"stream_event","event":{"type":"content_block_delta","delta":{"type":"text_delta","text":"Hola"}}}
+{"type":"assistant","message":{"content":[{"type":"tool_use","id":"tool-1","name":"Read","input":{"file_path":"README.md"}}]}}
+{"type":"result","subtype":"success","is_error":false,"session_id":"claude-session-1","result":"Hola","structured_output":{"ok":true},"duration_ms":120,"total_cost_usd":0.02,"usage":{"input_tokens":10,"output_tokens":3},"modelUsage":{"claude-opus-5":{"inputTokens":10,"outputTokens":3,"cacheReadInputTokens":4,"cacheCreationInputTokens":2,"costUSD":0.02}}}

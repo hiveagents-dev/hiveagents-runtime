@@ -1,0 +1,2 @@
+{"type":"system","subtype":"init","session_id":"claude-usage-limit"}
+{"type":"result","subtype":"success","is_error":true,"terminal_reason":"api_error","session_id":"claude-usage-limit","result":"Usage limit reached; try again later"}

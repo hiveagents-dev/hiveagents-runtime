@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    // Los ejemplos corren con `node --experimental-strip-types`, que resuelve
+    // el especificador literal: importan `./x.ts` porque no existe un `./x.js`
+    // hasta que tsup construye. `noEmit` es obligatorio con esta opción, y no
+    // afecta al build, que lo hace tsup y no tsc.
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "verbatimModuleSyntax": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "types": ["node", "vitest/globals"]
+  },
+  "include": ["src/**/*.ts", "tests/**/*.ts", "examples/**/*.ts", "tsup.config.ts"],
+  "exclude": ["dist", "node_modules", "files (10)"]
+}

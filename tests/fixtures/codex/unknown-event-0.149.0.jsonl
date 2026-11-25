@@ -1,0 +1,4 @@
+{"type":"thread.started","thread_id":"codex-thread-2"}
+{"type":"future.event","payload":{"kept":true}}
+{"type":"item.completed","item":{"type":"agent_message","text":"done"}}
+{"type":"turn.completed","usage":{"input_tokens":1,"output_tokens":1}}

@@ -1,0 +1,33 @@
+{
+  "source": "codex app-server generate-json-schema",
+  "cliVersion": "0.149.0",
+  "generatedAt": "2026-09-01",
+  "commands": {
+    "stable": "codex app-server generate-json-schema --out <dir>",
+    "experimental": "codex app-server generate-json-schema --experimental --out <dir>"
+  },
+  "allowlistNote": "The generated bundle is multi-megabyte; only the JSON-RPC message envelope and the ServerRequest unions (the security-critical inbound frames: approvals, user input, elicitation, dynamic tool calls) are pinned. Server notifications are intentionally not schema-validated: unknown or drifted notifications must pass through preserved as provider events, never dropped and never fail-closed. Client requests are outbound and typed at the call site.",
+  "files": [
+    {
+      "path": "JSONRPCMessage.json",
+      "generatedName": "JSONRPCMessage.json",
+      "variant": "stable (byte-identical to experimental)",
+      "bytes": 2888,
+      "sha256": "6da4cc373a7ccd01f5608ad4496eeb4d44b6a9b0d3158e85ed66b59f3c0b5114"
+    },
+    {
+      "path": "ServerRequest.stable.json",
+      "generatedName": "ServerRequest.json",
+      "variant": "stable",
+      "bytes": 49248,
+      "sha256": "e5ae9078cddac333262ae392fe25558d6054b77e4beb00784b77cf606849d063"
+    },
+    {
+      "path": "ServerRequest.experimental.json",
+      "generatedName": "ServerRequest.json",
+      "variant": "experimental",
+      "bytes": 50686,
+      "sha256": "41187d1422afe9890b528749d13c497fbfecb8cb1ae6dd3de1a2a82d7b4ba687"
+    }
+  ]
+}

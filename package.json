@@ -1,0 +1,121 @@
+{
+  "name": "hiveagents-runtime",
+  "version": "0.1.0-beta.5",
+  "description": "One local-first SDK to use and route tasks across installed AI agent CLIs",
+  "private": false,
+  "license": "Apache-2.0",
+  "peerDependencies": {
+    "@anthropic-ai/claude-agent-sdk": ">=0.3.251 <0.4",
+    "@modelcontextprotocol/sdk": "^1.29.0"
+  },
+  "peerDependenciesMeta": {
+    "@anthropic-ai/claude-agent-sdk": {
+      "optional": true
+    },
+    "@modelcontextprotocol/sdk": {
+      "optional": true
+    }
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22.16.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./orchestration": {
+      "types": "./dist/orchestration/index.d.ts",
+      "import": "./dist/orchestration/index.js"
+    },
+    "./orchestration/graph": {
+      "types": "./dist/orchestration/graph.d.ts",
+      "import": "./dist/orchestration/graph.js"
+    },
+    "./orchestration/memory": {
+      "types": "./dist/orchestration/memory.d.ts",
+      "import": "./dist/orchestration/memory.js"
+    },
+    "./orchestration/dynamic": {
+      "types": "./dist/orchestration/dynamic.d.ts",
+      "import": "./dist/orchestration/dynamic.js"
+    },
+    "./orchestration/log": {
+      "types": "./dist/orchestration/log.d.ts",
+      "import": "./dist/orchestration/log.js"
+    },
+    "./memory-tools": {
+      "types": "./dist/memory-tools.d.ts",
+      "import": "./dist/memory-tools.js"
+    },
+    "./adapter-kit": {
+      "types": "./dist/adapter-kit.d.ts",
+      "import": "./dist/adapter-kit.js"
+    },
+    "./hosted": {
+      "types": "./dist/hosted-runtime.d.ts",
+      "import": "./dist/hosted-runtime.js"
+    },
+    "./routing": {
+      "types": "./dist/routing/index.d.ts",
+      "import": "./dist/routing/index.js"
+    },
+    "./routing/learning": {
+      "types": "./dist/routing/learning/index.d.ts",
+      "import": "./dist/routing/learning/index.js"
+    }
+  },
+  "bin": {
+    "hiveagents-runtime": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "docs/licenses",
+    "docs/releases/0.1.0-beta.5.md",
+    "docs/examples/quickstart-offline.mjs"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "verify:orchestration": "npm run build && node scripts/verify-orchestration-package.mjs",
+    "test:live": "npm run build && OAR_LIVE=1 vitest run tests/live --passWithNoTests",
+    "prepack": "npm run build && npm run typecheck",
+    "verify:external": "node scripts/verify-external-consumer.mjs",
+    "verify:first-delivery": "node scripts/verify-first-delivery.mjs",
+    "verify:release": "node scripts/verify-release-candidate.mjs",
+    "verify:harness": "node scripts/verify-harness-consumer.mjs",
+    "verify:routing": "node scripts/verify-routing-consumer.mjs",
+    "verify:learning": "node scripts/verify-learning-consumer.mjs",
+    "verify:continuous": "node scripts/verify-continuous-consumer.mjs",
+    "verify:distribution": "node scripts/verify-distribution.mjs"
+  },
+  "dependencies": {
+    "ajv": "8.20.0"
+  },
+  "devDependencies": {
+    "@types/node": "26.4.0",
+    "tsup": "8.5.1",
+    "typescript": "5.9.3",
+    "vitest": "4.1.11"
+  },
+  "overrides": {
+    "esbuild": "0.28.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hiveagents-dev/hiveagents-runtime.git"
+  },
+  "homepage": "https://github.com/hiveagents-dev/hiveagents-runtime",
+  "publishConfig": {
+    "access": "public",
+    "tag": "beta"
+  },
+  "bugs": {
+    "url": "https://github.com/hiveagents-dev/hiveagents-runtime/issues"
+  }
+}

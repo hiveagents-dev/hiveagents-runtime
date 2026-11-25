@@ -1,0 +1,5 @@
+{"type":"thread.started","thread_id":"codex-recoverable-errors"}
+{"type":"item.completed","item":{"id":"warning-1","type":"error","message":"failed to parse plugin hooks config [redacted]: unknown field `_note`"}}
+{"type":"turn.started"}
+{"type":"item.completed","item":{"id":"message-1","type":"agent_message","text":"OAR_RAW_OK"}}
+{"type":"turn.completed","usage":{"input_tokens":12,"cached_input_tokens":8,"output_tokens":4}}

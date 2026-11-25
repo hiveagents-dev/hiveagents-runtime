@@ -1,0 +1,1 @@
+{"type":"result","subtype":"success","is_error":true,"terminal_reason":"api_error","session_id":"5dd2fe53-9862-4ac0-a64b-59eb6faaf39d","result":"Not logged in · Please run /login","total_cost_usd":0,"usage":{"input_tokens":0,"output_tokens":0},"modelUsage":{}}

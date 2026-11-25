@@ -1,0 +1,6 @@
+{"type":"thread.started","thread_id":"codex-thread-1"}
+{"type":"turn.started","turn_id":"turn-1"}
+{"type":"item.started","item":{"id":"cmd-1","type":"command_execution","command":"npm test"}}
+{"type":"item.completed","item":{"id":"cmd-1","type":"command_execution","command":"npm test","aggregated_output":"ok"}}
+{"type":"item.completed","item":{"id":"msg-1","type":"agent_message","text":"Tests en verde."}}
+{"type":"turn.completed","usage":{"input_tokens":4200,"cached_input_tokens":3000,"output_tokens":180}}

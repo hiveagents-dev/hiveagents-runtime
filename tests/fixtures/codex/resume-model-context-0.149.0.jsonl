@@ -1,0 +1,5 @@
+{"type":"thread.started","thread_id":"codex-resumed","model":"gpt-5.6-sol","resumed_from":"codex-source"}
+{"type":"context.compacted","memory":{"source":"provider","active":true}}
+{"type":"turn.started","turn_id":"turn-resumed"}
+{"type":"item.completed","item":{"id":"msg-1","type":"agent_message","text":"resumed"}}
+{"type":"turn.completed","usage":{"input_tokens":12,"cached_input_tokens":8,"output_tokens":2}}

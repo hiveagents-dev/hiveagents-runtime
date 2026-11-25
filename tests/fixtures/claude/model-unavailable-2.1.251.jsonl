@@ -1,0 +1,2 @@
+{"type":"system","subtype":"init","session_id":"claude-model-unavailable"}
+{"type":"result","subtype":"success","is_error":true,"terminal_reason":"api_error","session_id":"claude-model-unavailable","result":"Model claude-opus-5 is unavailable for the active plan"}

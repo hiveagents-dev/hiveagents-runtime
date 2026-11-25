@@ -1,0 +1,72 @@
+name: Publish verified beta
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    if: startsWith(github.ref, 'refs/tags/v') && github.event.repository.visibility == 'public'
+    runs-on: macos-latest
+    timeout-minutes: 30
+    outputs:
+      sha256: ${{ steps.package.outputs.sha256 }}
+      package-file: ${{ steps.package.outputs.package_file }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22.23.2'
+          cache: npm
+      - run: npm ci
+      - name: Verify the beta tag matches the manifest
+        run: |
+          node --input-type=module -e '
+            import assert from "node:assert/strict";
+            import { readFileSync } from "node:fs";
+            const { version } = JSON.parse(readFileSync("package.json"));
+            assert.match(version, /^0[.]1[.]0-beta[.][0-9]+$/u);
+            assert.equal("v" + version, process.env.GITHUB_REF_NAME);
+          '
+      - run: npm run build
+      - run: npm run typecheck
+      - run: npm test -- --maxWorkers=2
+      - id: package
+        name: Verify the exact tarball in an empty application
+        run: |
+          npm run verify:distribution -- --out "$RUNNER_TEMP/verified"
+          node --input-type=module -e '
+            import { appendFileSync, readFileSync } from "node:fs";
+            import { join } from "node:path";
+            const r = JSON.parse(readFileSync(join(process.env.RUNNER_TEMP, "verified/distribution-receipt.json")));
+            appendFileSync(process.env.GITHUB_OUTPUT, "sha256=" + r.sha256 + "\npackage_file=" + r.file + "\n");
+          '
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: verified-sdk-beta
+          path: ${{ runner.temp }}/verified/
+          if-no-files-found: error
+
+  publish:
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22.23.2'
+      - run: npm install --global npm@11.6.2
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: verified-sdk-beta
+      - name: Publish the verified bytes to npm
+        env:
+          EXPECTED_SHA256: ${{ needs.verify.outputs.sha256 }}
+          PACKAGE_FILE: ${{ needs.verify.outputs.package-file }}
+        run: |
+          test "$(sha256sum "$PACKAGE_FILE" | cut -d ' ' -f 1)" = "$EXPECTED_SHA256"
+          npm publish "./$PACKAGE_FILE" --tag beta --access public --provenance

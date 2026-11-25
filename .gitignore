@@ -1,0 +1,46 @@
+# Ruflo local secrets and runtime data
+.env
+.env.local
+.env.*.local
+
+# Shared Claude policy; machine-specific settings remain local
+.claude/*
+!.claude/settings.json
+
+# Local tool state — never versioned
+.claude-flow/
+.agents/
+.swarm/
+
+# Codex local configuration
+.codex/
+# Claude Flow runtime data
+# Environment variables
+
+# Node / build output
+node_modules/
+dist/
+dist-electron/
+coverage/
+*.tgz
+*.tsbuildinfo
+.artifacts/
+.playwright-mcp/
+
+# Local OS and runtime state
+.DS_Store
+**/.DS_Store
+.swarm/*.db
+.swarm/state.json
+agentdb.rvf
+agentdb.rvf.lock
+agentdb.rvf.idmap.json
+# Memoria generada por examples/08-hive-mind.ts
+.hive-mind.rvf
+.hive-mind.rvf.lock
+.hive-mind.db
+ruvector.db
+
+.claude-flow/data/
+.claude-flow/logs/
+.claude-flow/sessions/

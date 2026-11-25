@@ -1,0 +1,4 @@
+{"type":"system","subtype":"init","session_id":"claude-context"}
+{"type":"system","subtype":"compact_boundary","compact_metadata":{"trigger":"auto"}}
+{"type":"assistant","message":{"content":[{"type":"tool_use","id":"task-1","name":"Task","input":{"subagent_type":"Explore"}}]}}
+{"type":"result","subtype":"success","is_error":false,"session_id":"claude-context","result":"done","modelUsage":{"claude-opus-5":{"inputTokens":8,"outputTokens":2,"costUSD":0.01},"claude-sonnet-5":{"inputTokens":20,"outputTokens":5,"costUSD":0.02}},"total_cost_usd":0.03}

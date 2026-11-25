@@ -1,0 +1,57 @@
+import type { ModelInfo } from '../public/types.js';
+
+export const COMPATIBILITY_MODELS: readonly ModelInfo[] = [
+  {
+    id: 'claude-opus-5',
+    provider: 'claude',
+    aliases: ['opus', 'opus-5'],
+    source: 'compatibility-catalog',
+    availability: 'unverified',
+    displayName: 'Claude Opus 5',
+    supportedEffort: ['low', 'medium', 'high', 'xhigh', 'max'],
+  },
+  {
+    id: 'claude-sonnet-5',
+    provider: 'claude',
+    aliases: ['sonnet', 'sonnet-5'],
+    source: 'compatibility-catalog',
+    availability: 'unverified',
+    displayName: 'Claude Sonnet 5',
+    supportedEffort: ['low', 'medium', 'high', 'xhigh', 'max'],
+  },
+  {
+    id: 'claude-haiku-4-5',
+    provider: 'claude',
+    aliases: ['haiku', 'haiku-4.5'],
+    source: 'compatibility-catalog',
+    availability: 'unverified',
+    displayName: 'Claude Haiku 4.5',
+  },
+  {
+    id: 'gpt-5.6-sol',
+    provider: 'codex',
+    aliases: ['sol'],
+    source: 'compatibility-catalog',
+    availability: 'unverified',
+    displayName: 'GPT-5.6 Sol',
+    supportedEffort: ['minimal', 'low', 'medium', 'high', 'xhigh'],
+  },
+  {
+    id: 'gpt-5.6-terra',
+    provider: 'codex',
+    aliases: ['terra'],
+    source: 'compatibility-catalog',
+    availability: 'unverified',
+    displayName: 'GPT-5.6 Terra',
+    supportedEffort: ['minimal', 'low', 'medium', 'high', 'xhigh'],
+  },
+  {
+    id: 'gpt-5.6-luna',
+    provider: 'codex',
+    aliases: ['luna'],
+    source: 'compatibility-catalog',
+    availability: 'unverified',
+    displayName: 'GPT-5.6 Luna',
+    supportedEffort: ['minimal', 'low', 'medium', 'high', 'xhigh'],
+  },
+] as const;
